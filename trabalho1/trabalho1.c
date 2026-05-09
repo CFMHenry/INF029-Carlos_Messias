@@ -92,9 +92,13 @@ int teste(int a)
 int q1(char data[])
 {
   int datavalida = 1;
+  int iCont, ContBarra = 0;
+  char sDia[3], sMes[3], sAno[5];
 
   //quebrar a string data em strings sDia, sMes, sAno
-
+  for(iCont = 0; data[iCont]; iCont++){
+    
+  } 
 
   //printf("%s\n", data);
 
@@ -159,7 +163,30 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 int q3(char *texto, char c, int isCaseSensitive)
 {
     int qtdOcorrencias = -1;
+    int iCont;
+    char CopyStr[sizeof(texto)], CopyC = c;
+    char LowerBox;
 
+    if(c >= 'A' && c <= 'Z'){
+        LowerBox = 'a' - 'A';
+        CopyC += LowerBox;
+    }
+        
+    if(!isCaseSensitive){
+        for(iCont = 0; texto[iCont]; iCont++){
+            if(texto[iCont] >= 'A' && texto[iCont] <= 'Z')
+                CopyStr[iCont] = texto[iCont] + LowerBox;
+            else
+                CopyStr[iCont] = texto[iCont];
+        }
+    }
+
+    for(iCont = 0; texto[iCont]; iCont++){
+        if(texto[iCont] == CopyC){
+            qtdOcorrencias++;
+        }
+    }
+    
     return qtdOcorrencias;
 }
 

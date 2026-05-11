@@ -231,16 +231,10 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
-    int Razao10 = 1, Mult10 = 1;
-    int CopyNum = num;
-    int iCont;
+    int Razao10, Mult10 = 1;
+    int CopyNum = 0;
 
-    for(;CopyNum > 10;){
-        CopyNum /= 10;
-        Razao10 *= 10;
-    }
-
-    CopyNum = 0;
+    Razao10 = CalcRazao10(num);
 
     for(;num > 0;){
         CopyNum += (num / Razao10) * Mult10;
@@ -265,9 +259,37 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
-    for(int i = 0; i < 20; i++){
-        
+    int qtdOcorrencias = 0;
+    int Razao10Base, Razao10Busca, iCont, jCont = 0;
+    char sNumBase[256], sNumBusca[100];
+
+    Razao10Base = CalcRazao10(numerobase);
+    Razao10Busca = CalcRazao10(numerobusca);
+
+    for(iCont = 0; Razao10Base > 0; iCont++){
+        sNumBase[iCont] = '0' + (numerobase / Razao10Base);
+        numerobase %= Razao10Base;
+        Razao10Base /= 10;
+    }
+
+    sNumBase[iCont] = '\0';
+
+    for(iCont = 0; Razao10Busca > 0; iCont++){
+        sNumBusca[iCont] = '0' + (numerobusca / Razao10Busca);
+        numerobusca %= Razao10Busca;
+        Razao10Busca /= 10;
+    }
+
+    sNumBusca[iCont] = '\0';
+
+    for(iCont = 0; sNumBase[iCont]; iCont++){
+        for(jCont = 0; sNumBusca[jCont]; jCont++){
+            if(sNumBase[iCont + jCont] != sNumBusca[jCont]){
+                break;
+            }
+        }
+        if(sNumBusca[jCont] == '\0')
+            qtdOcorrencias++;
     }
     
     return qtdOcorrencias;
@@ -347,4 +369,15 @@ DataQuebrada quebraData(char data[]){
 	dq.valido = 1;
     
   return dq;
+}
+
+int CalcRazao10(int num){
+    int CopyNum = num, Razao10 = 1;
+
+    for(;CopyNum >= 10;){
+        CopyNum /= 10;
+        Razao10 *= 10;
+    }
+
+    return Razao10;
 }

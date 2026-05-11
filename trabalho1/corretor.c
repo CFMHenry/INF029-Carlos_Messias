@@ -32,8 +32,9 @@ void testQ7();
 
 int main()
 {
-    testSomar();
-    testFatorial();
+
+    //testSomar();
+    //testFatorial();
     /*testQ1();
     testQ2();
     testQ3();
@@ -41,6 +42,18 @@ int main()
     testQ5();
     testQ6();
     testQ7();*/
+
+    //testSomar();
+    //testFatorial();
+   
+    //testQ1();
+    //testQ2();
+    //testQ3();
+    //testQ4();
+    //testQ5();
+    //testQ6();
+    //testQ7();
+    return 0;
 }
 
 int ligado = 0;
@@ -190,6 +203,7 @@ void testQ5()
 {
     show_log("testQ5()");
     printf("%d\n", q5(345) == 543);
+    printf("%d\n ",q5(345) == 543);
     printf("%d\n", q5(78) == 87);
     printf("%d\n", q5(3) == 3);
     printf("%d\n", q5(5430) == 345);

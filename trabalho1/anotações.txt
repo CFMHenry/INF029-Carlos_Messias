@@ -1,0 +1,2 @@
+q1 (), q2(), q3(x), q4(), q5(x), q6(), q7();
+Checar se precisa aceitar acento na terceira questão;

@@ -92,8 +92,8 @@ int teste(int a)
 int q1(char data[])
 {
   int datavalida = 1;
-  int iCont, ContBarra = 0;
-  char sDia[3], sMes[3], sAno[5];
+  int iCont;
+  
 
   //quebrar a string data em strings sDia, sMes, sAno
   for(iCont = 0; data[iCont]; iCont++){
@@ -162,27 +162,34 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  */
 int q3(char *texto, char c, int isCaseSensitive)
 {
-    int qtdOcorrencias = -1;
+    int qtdOcorrencias = 0;
     int iCont;
-    char CopyStr[sizeof(texto)], CopyC = c;
-    char LowerBox;
+    char CopyStr[256];
+    char LowerBox = 'a' - 'A';
 
-    if(c >= 'A' && c <= 'Z'){
-        LowerBox = 'a' - 'A';
-        CopyC += LowerBox;
-    }
-        
-    if(!isCaseSensitive){
-        for(iCont = 0; texto[iCont]; iCont++){
+    
+    if(isCaseSensitive != 1){
+        if(c >= 'A' && c <= 'Z'){
+            c += LowerBox;
+        }
+
+        for(iCont = 0; texto[iCont] != '\0'; iCont++){
             if(texto[iCont] >= 'A' && texto[iCont] <= 'Z')
                 CopyStr[iCont] = texto[iCont] + LowerBox;
             else
                 CopyStr[iCont] = texto[iCont];
         }
     }
+    else{
+        for(iCont = 0; texto[iCont] != '\0'; iCont++){
+            CopyStr[iCont] = texto[iCont];
+        }
+    }
 
-    for(iCont = 0; texto[iCont]; iCont++){
-        if(texto[iCont] == CopyC){
+    CopyStr[iCont] = '\0';
+
+    for(iCont = 0; CopyStr[iCont]; iCont++){
+        if(CopyStr[iCont] == c){
             qtdOcorrencias++;
         }
     }
@@ -224,7 +231,25 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
+    int Razao10 = 1, Mult10 = 1;
+    int CopyNum = num;
+    int iCont;
 
+    for(;CopyNum > 10;){
+        CopyNum /= 10;
+        Razao10 *= 10;
+    }
+
+    CopyNum = 0;
+
+    for(;num > 0;){
+        CopyNum += (num / Razao10) * Mult10;
+        num = num % Razao10;
+        Razao10 /= 10;
+        Mult10 *= 10;
+    }
+
+    num = CopyNum;
     return num;
 }
 
@@ -241,6 +266,10 @@ int q5(int num)
 int q6(int numerobase, int numerobusca)
 {
     int qtdOcorrencias;
+    for(int i = 0; i < 20; i++){
+        
+    }
+    
     return qtdOcorrencias;
 }
 

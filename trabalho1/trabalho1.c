@@ -214,7 +214,25 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
+    int qtdOcorrencias = 0;
+    int iCont = 0, jCont = 0, kCont = 0;
+
+    for(iCont = 0; strTexto[iCont]; iCont++){
+
+        for(jCont = 0; strBusca[jCont]; jCont++){
+            if(strTexto[iCont + jCont] != strBusca[jCont]){
+                break;
+            }
+                
+        }
+        if(strBusca[jCont] == '\0'){
+            qtdOcorrencias++;
+            posicoes[kCont] = iCont + 1;
+            kCont++;
+            posicoes[kCont] = iCont + jCont;
+            kCont++;
+        }
+    }
 
     return qtdOcorrencias;
 }
@@ -260,38 +278,18 @@ int q5(int num)
 int q6(int numerobase, int numerobusca)
 {
     int qtdOcorrencias = 0;
-    int Razao10Base, Razao10Busca, iCont, jCont = 0;
-    char sNumBase[256], sNumBusca[100];
+    int Razao10Busca;
 
-    Razao10Base = CalcRazao10(numerobase);
     Razao10Busca = CalcRazao10(numerobusca);
 
-    for(iCont = 0; Razao10Base > 0; iCont++){
-        sNumBase[iCont] = '0' + (numerobase / Razao10Base);
-        numerobase %= Razao10Base;
-        Razao10Base /= 10;
-    }
-
-    sNumBase[iCont] = '\0';
-
-    for(iCont = 0; Razao10Busca > 0; iCont++){
-        sNumBusca[iCont] = '0' + (numerobusca / Razao10Busca);
-        numerobusca %= Razao10Busca;
-        Razao10Busca /= 10;
-    }
-
-    sNumBusca[iCont] = '\0';
-
-    for(iCont = 0; sNumBase[iCont]; iCont++){
-        for(jCont = 0; sNumBusca[jCont]; jCont++){
-            if(sNumBase[iCont + jCont] != sNumBusca[jCont]){
-                break;
-            }
-        }
-        if(sNumBusca[jCont] == '\0')
+    for(;numerobase > 0;){
+        
+        if(numerobase % (Razao10Busca * 10) == numerobusca)
             qtdOcorrencias++;
+        
+        numerobase /= 10;
+        
     }
-    
     return qtdOcorrencias;
 }
 
@@ -368,7 +366,7 @@ DataQuebrada quebraData(char data[]){
 
 	dq.valido = 1;
     
-  return dq;
+  return dq; 
 }
 
 int CalcRazao10(int num){

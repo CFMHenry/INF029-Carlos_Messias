@@ -51,5 +51,14 @@ int q6(int numerobase, int numerobusca);
 int q7(char matriz[8][10], char palavra[5]);
 DataQuebrada quebraData(char data[]);
 int CalcRazao10(int num);
+int VerificarAcima(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarAbaixo(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarEsquerda(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarDireita(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarDiagonalSupEsq(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarDiagonalInfEsq(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarDiagonalSupDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int VerificarDiagonalInfDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
+int ePosicaoValida(int caso, int LinAtual, int ColAtual);
 
 #endif  // MAIN_H

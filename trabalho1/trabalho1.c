@@ -303,11 +303,31 @@ int q6(int numerobase, int numerobusca)
     1 se achou 0 se não achou
  */
 
- int q7(char matriz[8][10], char palavra[5])
- {
-     int achou;
-     return achou;
- }
+int q7(char matriz[8][10], char palavra[6])
+{
+    int achou = 0;
+    int iCont, jCont, kCont;
+
+    for(iCont = 0; iCont < 8 && !achou; iCont++){
+        for(jCont = 0; jCont < 10 && !achou; jCont++){
+            if(matriz[iCont][jCont] == palavra[0] && !achou){
+                achou += VerificarAcima(matriz, palavra, iCont - 1, jCont, 1);
+                achou += VerificarAbaixo(matriz, palavra, iCont + 1, jCont, 1);
+                achou += VerificarEsquerda(matriz, palavra, iCont, jCont - 1, 1);
+                achou += VerificarDireita(matriz, palavra, iCont, jCont + 1, 1);
+                achou += VerificarDiagonalSupEsq(matriz, palavra, iCont - 1, jCont - 1, 1);
+                achou += VerificarDiagonalSupDir(matriz, palavra, iCont - 1, jCont + 1, 1);
+                achou += VerificarDiagonalInfEsq(matriz, palavra, iCont + 1, jCont - 1, 1);
+                achou += VerificarDiagonalInfDir(matriz, palavra, iCont + 1, jCont + 1, 1);
+            }
+        }
+    }
+
+    if(achou > 0)
+        achou = 1;
+
+    return achou;
+}
 
 
 
@@ -378,4 +398,183 @@ int CalcRazao10(int num){
     }
 
     return Razao10;
+}
+
+int VerificarAcima(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+
+    if(ePosicaoValida(0, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarAcima(matriz, palavra, LinAtual - 1, ColAtual, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarAbaixo(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+
+    if(ePosicaoValida(1, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarAbaixo(matriz, palavra, LinAtual + 1, ColAtual, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarEsquerda(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+
+    if(ePosicaoValida(2, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarEsquerda(matriz, palavra, LinAtual, ColAtual - 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarDireita(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+
+    if(ePosicaoValida(3, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarDireita(matriz, palavra, LinAtual, ColAtual + 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarDiagonalSupEsq(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+    if(ePosicaoValida(4, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual - 1, ColAtual - 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarDiagonalInfEsq(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+    if(ePosicaoValida(4, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual - 1, ColAtual + 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarDiagonalSupDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+    if(ePosicaoValida(4, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual + 1, ColAtual - 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int VerificarDiagonalInfDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){
+    if(ePosicaoValida(4, LinAtual, ColAtual)){
+        if(indxPalavra == 5)
+            return 1;
+            
+        if(matriz[LinAtual][ColAtual] == palavra[indxPalavra]){
+            indxPalavra++;
+            if(indxPalavra == 5)
+                return 1;
+            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual + 1, ColAtual + 1, indxPalavra);
+        }
+        else{
+            return 0;
+        }    
+    }
+    else{
+        return 0;
+    }
+}
+
+int ePosicaoValida(int caso, int LinAtual, int ColAtual){
+    switch(caso){
+        case 0:
+            return (LinAtual >= 0); //Verificar casa acima
+        case 1:
+            return(LinAtual < 8); //Verificar casa abaixo
+        case 2: 
+            return (ColAtual >= 0); //Verificar casa a esquerda
+        case 3: 
+            return(ColAtual < 10); //Verifico casa a direita
+        case 4: 
+            return(LinAtual >= 0 && LinAtual < 8 && ColAtual >= 0 && ColAtual < 10); //Verificar casa acima e a esquerda   
+    }
 }

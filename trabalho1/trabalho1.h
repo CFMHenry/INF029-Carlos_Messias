@@ -60,5 +60,6 @@ int VerificarDiagonalInfEsq(char matriz[8][10], char palavra[6], int LinAtual,  
 int VerificarDiagonalSupDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
 int VerificarDiagonalInfDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
 int ePosicaoValida(int caso, int LinAtual, int ColAtual);
+int CalcTamStr(char *str);
 
 #endif  // MAIN_H

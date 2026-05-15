@@ -108,8 +108,6 @@ int q1(char data[])
       return 0;
 }
 
-
-
 /*
  Q2 = diferença entre duas datas
  @objetivo
@@ -215,17 +213,29 @@ int q3(char *texto, char c, int isCaseSensitive)
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
     int qtdOcorrencias = 0;
-    int iCont = 0, jCont = 0, kCont = 0;
+    int TAM_TEXT = CalcTamStr(strTexto), TAM_SEARCH = CalcTamStr(strBusca);
+    int CharStrNum[TAM_TEXT], CharSearchNum[TAM_SEARCH];
+    int iCont, jCont, kCont = 0;
 
-    for(iCont = 0; strTexto[iCont]; iCont++){
+    for(iCont = 0, jCont = 0; strTexto[iCont]; iCont++, jCont++){
+        if(strTexto[iCont] == -61)
+            iCont++;
+        CharStrNum[jCont] = strTexto[iCont];
+    }
+    for(iCont = 0, jCont = 0; strBusca[iCont]; iCont++, jCont++){
+        if(strBusca[iCont] == -61)
+            iCont++;
+        CharSearchNum[jCont] = strBusca[iCont];
+    }
 
-        for(jCont = 0; strBusca[jCont]; jCont++){
-            if(strTexto[iCont + jCont] != strBusca[jCont]){
+    for(iCont = 0; iCont <= TAM_TEXT - TAM_SEARCH; iCont++){
+        for(jCont = 0; jCont < TAM_SEARCH; jCont++){
+            if(CharStrNum[iCont + jCont] != CharSearchNum[jCont]){
                 break;
             }
                 
         }
-        if(strBusca[jCont] == '\0'){
+        if(jCont == TAM_SEARCH){
             qtdOcorrencias++;
             posicoes[kCont] = iCont + 1;
             kCont++;
@@ -329,8 +339,6 @@ int q7(char matriz[8][10], char palavra[6])
     return achou;
 }
 
-
-
 DataQuebrada quebraData(char data[]){
   DataQuebrada dq;
   char sDia[3];
@@ -398,6 +406,15 @@ int CalcRazao10(int num){
     }
 
     return Razao10;
+}
+
+int CalcTamStr(char *str){
+    int iCont;
+    for(iCont = 0; str[iCont]; iCont++){
+        if(str[iCont] == -61)
+            iCont++;
+    }
+    return iCont;
 }
 
 int VerificarAcima(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){

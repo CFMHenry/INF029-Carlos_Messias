@@ -91,21 +91,22 @@ int teste(int a)
  */
 int q1(char data[])
 {
-  int datavalida = 1;
-  int iCont;
+    int datavalida = 1;
+    int iCont;
   
 
   //quebrar a string data em strings sDia, sMes, sAno
-  for(iCont = 0; data[iCont]; iCont++){
-    
-  } 
-
+    DataQuebrada dq = quebraData(data);
   //printf("%s\n", data);
+    if(!dq.valido)
+        datavalida = 0;
+    else
+        datavalida = ValidarData(dq.iDia, dq.iMes, dq.iAno);
 
-  if (datavalida)
-      return 1;
-  else
-      return 0;
+    if(datavalida)
+        return 1;
+    else
+        return 0;
 }
 
 /*
@@ -127,8 +128,12 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 
     //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
+    DataQuebrada dqInit = quebraData(datainicial);
+    DataQuebrada dqFim = quebraData(datafinal);
 
-    if (q1(datainicial) == 0){
+    
+
+    if(q1(datainicial) == 0){
       dma.retorno = 2;
       return dma;
     }else if (q1(datafinal) == 0){
@@ -136,9 +141,18 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
       return dma;
     }else{
       //verifique se a data final não é menor que a data inicial
-      
+        if(VerificarSeMaior(datainicial, datafinal)){
+            dma.retorno = 4;
+            return dma;
+        }
+            
       //calcule a distancia entre as datas
+        dma.qtdAnos = dqFim.iAno - dqInit.iAno;
+        dma.qtdMeses = dqFim.iMes - dqInit.iMes;
+        dma.qtdDias = dqFim.iDia - dqInit.iDia;
 
+        dma = ChecarDiferenca(dma, dqInit, dqFim);
+        
 
       //se tudo der certo
       dma.retorno = 1;
@@ -390,11 +404,74 @@ DataQuebrada quebraData(char data[]){
 
   dq.iDia = atoi(sDia);
   dq.iMes = atoi(sMes);
-  dq.iAno = atoi(sAno); 
+  if(i == 2){
+    dq.iAno = atoi(sAno) + 2000;
+  }
+  else{
+    dq.iAno = atoi(sAno); 
+  }
+  
 
 	dq.valido = 1;
     
   return dq; 
+}
+
+int VerificarSeMaior(char datainicial[], char datafinal[]){
+    int DataInicial = 0, DataFinal = 0, iCont, jCont, Razao10 = 1;
+    for(iCont = 0, jCont = 0; datainicial[iCont]; iCont++){
+        if(datainicial[iCont] == '/')
+            iCont++;
+        DataInicial += (datainicial[iCont] - '0') * Razao10;
+        Razao10 *= 10;
+    }
+    Razao10 = 1;
+    for(iCont = 0, jCont = 0; datafinal[iCont]; iCont++){
+        if(datafinal[iCont] == '/')
+            iCont++;
+        DataFinal += (datafinal[iCont] - '0') * Razao10;
+        Razao10 *= 10;
+    }
+    if(DataInicial > DataFinal){
+        return 1;
+    }
+    return 0;
+
+}
+
+DiasMesesAnos ChecarDiferenca(DiasMesesAnos dma, DataQuebrada dqInit, DataQuebrada dqFim){
+    int mesanterior = dqFim.iMes - 1, anoanterior = dqFim.iAno;
+    if(mesanterior == 0){
+        mesanterior = 12;
+        anoanterior = dqFim.iAno - 1;
+    }
+    if(dma.qtdDias < 0){
+        if(mesanterior == 4 || mesanterior == 6 || mesanterior == 9 || mesanterior == 11)
+            dma.qtdDias += 30;
+        else if(mesanterior == 2){
+            if(eAnoBissexto(anoanterior))
+                dma.qtdDias += 29;
+            else
+                dma.qtdDias += 28;
+        }
+        else
+            dma.qtdDias += 31;
+            
+        dma.qtdMeses -= 1;
+    }
+
+    if(dma.qtdMeses < 0){
+        dma.qtdMeses += 12;
+        dma.qtdAnos -= 1;
+    }
+
+
+    if(dma.qtdMeses >= 12){
+        dma.qtdMeses = 0;
+        dma.qtdAnos += 1;
+    }
+
+    return dma;
 }
 
 int CalcRazao10(int num){
@@ -530,7 +607,7 @@ int VerificarDiagonalInfEsq(char matriz[8][10], char palavra[6], int LinAtual,  
             indxPalavra++;
             if(indxPalavra == 5)
                 return 1;
-            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual - 1, ColAtual + 1, indxPalavra);
+            return VerificarDiagonalInfEsq(matriz, palavra, LinAtual + 1, ColAtual - 1, indxPalavra);
         }
         else{
             return 0;
@@ -550,7 +627,7 @@ int VerificarDiagonalSupDir(char matriz[8][10], char palavra[6], int LinAtual,  
             indxPalavra++;
             if(indxPalavra == 5)
                 return 1;
-            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual + 1, ColAtual - 1, indxPalavra);
+            return VerificarDiagonalSupDir(matriz, palavra, LinAtual - 1, ColAtual + 1, indxPalavra);
         }
         else{
             return 0;
@@ -570,7 +647,7 @@ int VerificarDiagonalInfDir(char matriz[8][10], char palavra[6], int LinAtual,  
             indxPalavra++;
             if(indxPalavra == 5)
                 return 1;
-            return VerificarDiagonalSupEsq(matriz, palavra, LinAtual + 1, ColAtual + 1, indxPalavra);
+            return VerificarDiagonalInfDir(matriz, palavra, LinAtual + 1, ColAtual + 1, indxPalavra);
         }
         else{
             return 0;
@@ -594,4 +671,51 @@ int ePosicaoValida(int caso, int LinAtual, int ColAtual){
         case 4: 
             return(LinAtual >= 0 && LinAtual < 8 && ColAtual >= 0 && ColAtual < 10); //Verificar casa acima e a esquerda   
     }
+}
+
+int ValidarData(int dia, int mes, int ano){
+    if(dia < 1)
+        return 0;
+    if(ValidarMes(mes) == 0 || ValidarAno(ano) == 0)
+        return 0;
+    if(mes == 2){
+        if(eAnoBissexto(ano)){
+            return (dia < 30);
+        }
+        else{
+            return (dia < 29);
+        }
+    }
+    if((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30)
+        return 0;
+    else if(dia > 31){
+        return 0;
+    }
+    else
+        return 1;
+}
+
+int ValidarMes(int mes){
+    return (mes > 0 && mes < 13);
+}
+
+int ValidarAno(int num){
+    if(num < 0)
+        return 0;
+    return 1;  
+}
+
+int eAnoBissexto(int Ano){
+    if(Ano % 100 == 0){
+        if(Ano % 400 == 0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    else if(Ano % 4 == 0)
+        return 1;
+    else
+        return 0;
 }

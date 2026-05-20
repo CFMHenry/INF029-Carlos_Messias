@@ -1,8 +1,0 @@
-q1 (x), q2(x), q3(x), q4(x), q5(x), q6(x), q7(x);
-Lista de observações:
-    Vericar que um acento tem duas posições no vetor, se tiver acento os dois numeros são negativos e o primeiro -61 -> (x);
-    comparar numero com numero ao inves de caractere na q6 -> (x);
-    Checar a questão 6 é valida para todas as entradas -> (x);
-    Checar se precisa aceitar acento na terceira questão -> (X);
-
-

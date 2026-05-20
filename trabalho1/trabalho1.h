@@ -63,6 +63,7 @@ int VerificarDiagonalSupDir(char matriz[8][10], char palavra[6], int LinAtual,  
 int VerificarDiagonalInfDir(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra);
 int ePosicaoValida(int caso, int LinAtual, int ColAtual);
 int CalcTamStr(char *str);
+char NormalizarChar(char c);
 int ValidarData(int dia, int mes, int ano);
 int ValidarMes(int mes);
 int ValidarAno(int num);

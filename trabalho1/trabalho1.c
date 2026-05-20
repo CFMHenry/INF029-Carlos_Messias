@@ -175,21 +175,27 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 int q3(char *texto, char c, int isCaseSensitive)
 {
     int qtdOcorrencias = 0;
-    int iCont;
+    int iCont, jCont;
     char CopyStr[256];
     char LowerBox = 'a' - 'A';
-
     
     if(isCaseSensitive != 1){
         if(c >= 'A' && c <= 'Z'){
             c += LowerBox;
         }
 
-        for(iCont = 0; texto[iCont] != '\0'; iCont++){
-            if(texto[iCont] >= 'A' && texto[iCont] <= 'Z')
-                CopyStr[iCont] = texto[iCont] + LowerBox;
+        for(iCont = 0, jCont = 0; texto[iCont] != '\0'; iCont++, jCont++){
+            if(texto[jCont] == -61){
+                jCont++;
+                CopyStr[iCont] = NormalizarChar(texto[jCont]);
+            }  
             else
                 CopyStr[iCont] = texto[iCont];
+
+            if(CopyStr[iCont] >= 'A' && CopyStr[iCont] <= 'Z'){
+                CopyStr[iCont] += LowerBox;
+            }
+        
         }
     }
     else{
@@ -497,6 +503,20 @@ int CalcTamStr(char *str){
             iCont++;
     }
     return iCont;
+}
+
+char NormalizarChar(char c){
+    if(c == -96 || c == -95 || c == -94 || c == -93) return 'a'; 
+    if(c == -88 || c == -87 || c == -86) return 'e';             
+    if(c == -84 || c == -83 || c == -82) return 'i';             
+    if(c == -78 || c == -77 || c == -76 || c == -75) return 'o'; 
+    if(c == -71 || c == -70 || c == -69) return 'u';             
+    
+    if(c == -128 || c == -127 || c == -126 || c == -125) return 'A'; 
+    if(c == -120 || c == -119 || c == -118) return 'E';              
+    if(c == -116 || c == -115 || c == -114) return 'I';              
+    if(c == -94 || c == -93 || c == -92 || c == -91) return 'O';     
+    if(c == -103 || c == -102 || c == -101) return 'U';              
 }
 
 int VerificarAcima(char matriz[8][10], char palavra[6], int LinAtual,  int ColAtual, int indxPalavra){

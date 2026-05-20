@@ -184,13 +184,13 @@ int q3(char *texto, char c, int isCaseSensitive)
             c += LowerBox;
         }
 
-        for(iCont = 0, jCont = 0; texto[iCont] != '\0'; iCont++, jCont++){
+        for(iCont = 0, jCont = 0; texto[jCont] != '\0'; iCont++, jCont++){
             if(texto[jCont] == -61){
                 jCont++;
                 CopyStr[iCont] = NormalizarChar(texto[jCont]);
             }  
             else
-                CopyStr[iCont] = texto[iCont];
+                CopyStr[iCont] = texto[jCont];
 
             if(CopyStr[iCont] >= 'A' && CopyStr[iCont] <= 'Z'){
                 CopyStr[iCont] += LowerBox;

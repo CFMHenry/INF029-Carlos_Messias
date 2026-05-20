@@ -255,6 +255,8 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
             kCont++;
             posicoes[kCont] = iCont + jCont;
             kCont++;
+
+            iCont += jCont - 1;
         }
     }
 
@@ -305,13 +307,16 @@ int q6(int numerobase, int numerobusca)
     int Razao10Busca;
 
     Razao10Busca = CalcRazao10(numerobusca);
+    
 
     for(;numerobase > 0;){
-        
-        if(numerobase % (Razao10Busca * 10) == numerobusca)
+        if(numerobase % (Razao10Busca * 10) == numerobusca){
             qtdOcorrencias++;
-        
-        numerobase /= 10;
+            numerobase /= Razao10Busca * 10;
+        }
+        else{
+            numerobase /= 10;
+        }
         
     }
     return qtdOcorrencias;

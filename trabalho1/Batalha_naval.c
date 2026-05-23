@@ -207,11 +207,11 @@ void PosicionarBarco(char tabuleiro[10][10], int tamanhoBarco)
 
     int iCont;
 
-    // MELHORIA 1: Mostrar o tabuleiro atual antes de pedir a posicao
+ 
     MostrarTabuleiro(tabuleiro, 1);
 
     do{
-        // MELHORIA 2: Exibir exemplo de posicao ao solicitar entrada
+        
         printf("Informe a posicao do barco tamanho %d (ex: A5): ", tamanhoBarco);
 
         scanf("%s", posicao);
@@ -244,7 +244,7 @@ void PosicionarBarco(char tabuleiro[10][10], int tamanhoBarco)
         }
     }
 
-    // MELHORIA 3: Mostrar o tabuleiro atualizado apos posicionar o barco
+   
     printf("Barco de tamanho %d posicionado! Tabuleiro atualizado:\n", tamanhoBarco);
     MostrarTabuleiro(tabuleiro, 1);
 }
@@ -269,7 +269,7 @@ void PosicionarFrota(char tabuleiro[10][10])
 
     PosicionarBarco(tabuleiro, 1);
 
-    // Se QTD_BARCOS for maior que 5, os barcos extras sao de tamanho 2
+
     for(iCont = 5; iCont < qtdBarcos; iCont++){
         PosicionarBarco(tabuleiro, 2);
     }

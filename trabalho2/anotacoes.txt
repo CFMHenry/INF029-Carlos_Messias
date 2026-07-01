@@ -1,0 +1,3 @@
+TODO:
+- Alocação de memoria para função Lista
+- verificar segmentetion fault quando tento inserir um numero na lista

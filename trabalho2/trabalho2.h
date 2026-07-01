@@ -14,6 +14,25 @@ typedef struct reg {
     struct reg *prox;
 } No;
 
+typedef struct Lista{
+    No * Primeiro;
+    No * Ultimo;
+}Lista;
+
+typedef struct NoLista{
+    int * num;
+    int chave;
+    int qtdElementos;
+    int TAM_MAX;
+    struct NoLista * prox;
+}NoLista;
+
+
+typedef struct lista{
+    NoLista * Primeiro;
+    NoLista * Ultimo;
+}ListaEstrutura;
+
 int criarEstruturaAuxiliar(int posicao, int tamanho);
 int inserirNumeroEmEstrutura(int posicao, int valor);
 int excluirNumeroDoFinaldaEstrutura(int posicao);
@@ -27,9 +46,14 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao);
 No *montarListaEncadeadaComCabecote();
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]);
 void destruirListaEncadeadaComCabecote(No **inicio);
-
+void Criar_EstrurasAuxiliar(int posicao, int tamanho);
+ListaEstrutura * Criar_ListaEstruras();
+int ehPosicaoValida(int posicao);
+int ExisteEstruturaAuxiliar(int posicao);
 void inicializar();
 void finalizar();
+int temEspaco(int posicao, int valor);
+
 void dobrar(int *x);
 
 #endif  // TRABALHO2_ESTRUTURAVETORES_H

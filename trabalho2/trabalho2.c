@@ -4,7 +4,8 @@
 
 #include "trabalho2.h"
 
-int vetorPrincipal[TAM];
+int *vetorPrincipal[TAM];
+ListaEstrutura * lista = NULL;
 
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
@@ -17,21 +18,35 @@ Rertono (int)
     SEM_ESPACO_DE_MEMORIA - Sem espaço de memória
     TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
 */
+
 int criarEstruturaAuxiliar(int posicao, int tamanho)
 {
 
     int retorno = 0;
-    // a posicao pode já existir estrutura auxiliar
-    retorno = JA_TEM_ESTRUTURA_AUXILIAR;
-    // se posição é um valor válido {entre 1 e 10}
-    retorno = POSICAO_INVALIDA;
-    // o tamanho ser muito grande
-    retorno = SEM_ESPACO_DE_MEMORIA;
-    // o tamanho nao pode ser menor que 1
-    retorno = TAMANHO_INVALIDO;
-    // deu tudo certo, crie
-    retorno = SUCESSO;
-
+    
+    if(tamanho < 1){
+        // o tamanho nao pode ser menor que 1 (X)
+        retorno = TAMANHO_INVALIDO;
+    }
+    else if(ehPosicaoValida(posicao) == POSICAO_INVALIDA){
+        // se posição é um valor válido {entre 1 e 10} (X)
+        retorno = POSICAO_INVALIDA;
+    }
+    else if(tamanho > 2147483000){
+        // o tamanho ser muito grande (x)
+        retorno = SEM_ESPACO_DE_MEMORIA;
+    }
+    else if(vetorPrincipal[posicao - 1] != NULL){
+        // a posicao pode já existir estrutura auxiliar
+        retorno = JA_TEM_ESTRUTURA_AUXILIAR;
+    }
+    else{
+        // deu tudo certo, crie ( )
+        Criar_EstrurasAuxiliar(posicao, tamanho);
+        //chamar criar estrutura
+        retorno = SUCESSO;
+    }
+    
     return retorno;
 }
 
@@ -47,18 +62,19 @@ CONSTANTES
 int inserirNumeroEmEstrutura(int posicao, int valor)
 {
     int retorno = 0;
-    int existeEstruturaAuxiliar = 0;
-    int temEspaco = 0;
-    int posicao_invalida = 0;
+    int estaCheio = temEspaco(posicao, valor);
+    int existeEstruturaAuxiliar = ExisteEstruturaAuxiliar(posicao);
+    int posicao_invalida = ehPosicaoValida(posicao);
 
-    if (posicao_invalida)
+
+    if (posicao_invalida == POSICAO_INVALIDA)
         retorno = POSICAO_INVALIDA;
     else
     {
         // testar se existe a estrutura auxiliar
-        if (existeEstruturaAuxiliar)
+        if (existeEstruturaAuxiliar != SEM_ESTRUTURA_AUXILIAR)
         {
-            if (temEspaco)
+            if (estaCheio == SUCESSO)
             {
                 //insere
                 retorno = SUCESSO;
@@ -125,6 +141,15 @@ int ehPosicaoValida(int posicao)
         retorno = SUCESSO;
 
     return retorno;
+}
+
+int ExisteEstruturaAuxiliar(int posicao){
+    if(vetorPrincipal[posicao - 1] != NULL){
+        return 1;
+    }
+    else{
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
 }
 /*
 Objetivo: retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
@@ -265,7 +290,11 @@ Objetivo: inicializa o programa. deve ser chamado ao inicio do programa
 
 void inicializar()
 {
-    
+    int i = 0;
+    for(i = 0; i < TAM; i++)
+        vetorPrincipal[i] = NULL;
+
+    lista = Criar_ListaEstruras();
 }
 
 /*
@@ -277,3 +306,54 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 void finalizar()
 {
 }
+
+ListaEstrutura * Criar_ListaEstruras(){
+    ListaEstrutura * Lista = malloc(sizeof(ListaEstrutura));
+    Lista->Primeiro = NULL;
+    Lista->Ultimo = NULL;
+    return Lista;
+}
+
+int temEspaco(int posicao, int valor){
+    NoLista * NoAux = lista->Primeiro;
+     
+    while(NoAux->chave != posicao - 1 || (NoAux->prox != NULL && NoAux->prox->chave != posicao - 1)){
+        NoAux = NoAux->prox;
+    }
+
+    if(NoAux->TAM_MAX > NoAux->qtdElementos){
+        return SUCESSO;
+    }
+    else{
+        return SEM_ESPACO;
+    }
+}
+
+void Criar_EstrurasAuxiliar(int posicao, int tamanho){
+    NoLista * No = malloc(sizeof(NoLista));
+    No->chave = posicao - 1;
+    No->qtdElementos = 0;
+    No->TAM_MAX = tamanho;
+    No->num = malloc(tamanho * sizeof(int));
+    vetorPrincipal[posicao - 1] = No->num;
+
+    if(lista->Primeiro != NULL){
+        if(lista->Primeiro == lista->Ultimo){
+            lista->Ultimo = No;
+        }
+        else{
+            lista->Ultimo->prox = No;
+            lista->Ultimo = lista->Ultimo->prox;
+        }
+        
+        lista->Ultimo->prox = NULL;
+    }else{
+        lista->Primeiro = No;
+        lista->Ultimo = lista->Primeiro;
+        lista->Primeiro->prox = lista->Ultimo;
+        lista->Ultimo->prox = NULL;
+    }
+
+    
+}
+

@@ -19,19 +19,11 @@ typedef struct Lista{
     No * Ultimo;
 }Lista;
 
-typedef struct NoLista{
+typedef struct EstAux{
     int * num;
-    int chave;
     int qtdElementos;
     int TAM_MAX;
-    struct NoLista * prox;
-}NoLista;
-
-
-typedef struct lista{
-    NoLista * Primeiro;
-    NoLista * Ultimo;
-}ListaEstrutura;
+}EstAux;
 
 int criarEstruturaAuxiliar(int posicao, int tamanho);
 int inserirNumeroEmEstrutura(int posicao, int valor);
@@ -47,13 +39,14 @@ No *montarListaEncadeadaComCabecote();
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]);
 void destruirListaEncadeadaComCabecote(No **inicio);
 void Criar_EstrurasAuxiliar(int posicao, int tamanho);
-ListaEstrutura * Criar_ListaEstruras();
 int ehPosicaoValida(int posicao);
 int ExisteEstruturaAuxiliar(int posicao);
 void inicializar();
 void finalizar();
-int temEspaco(int posicao, int valor);
-
+int temEspaco(int posicao);
+void inserirNum(int posicao, int num);
+int contarElementos(int posicao);
+No * criar_no();
 void dobrar(int *x);
 
 #endif  // TRABALHO2_ESTRUTURAVETORES_H
